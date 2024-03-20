@@ -68,3 +68,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### `Sample images of the waether dashboard are given below:-
+
+![Screenshot from 2024-03-20 12-19-48](https://github.com/naveenjain123/weather-dashboard/assets/24185202/28c91bb6-56d6-4291-8ffb-68537e1bfbcf)
+
+![Screenshot from 2024-03-20 12-19-55](https://github.com/naveenjain123/weather-dashboard/assets/24185202/2eea384b-773f-4bdf-9a7e-e20732260c36)
+
+![Screenshot from 2024-03-20 12-19-59](https://github.com/naveenjain123/weather-dashboard/assets/24185202/2c27cc6d-6082-4b9e-bf13-7f7e855b886c)
+
+
