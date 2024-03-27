@@ -18,6 +18,8 @@ const DailyTrend = () => {
   // getting and setting the daily trends data and pagination state data here
 
   const [page, pageChange] = useState(0);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [rowPerPage, rowPerPageChange] = useState(10);
 
   const [weatherData,setWeatherData] = useState(null);
@@ -33,12 +35,24 @@ const DailyTrend = () => {
    
   // calling the daily trends API here in useEffect
 
-  useEffect(async()=>{
-    const data = await fetch(`${WEATHER_API_BASE_URLS.DAILY_TRENDS_API_BASE_URL}?q=${"delhi"}&appid=${WEATHER_API_KEY}`)
-    var result = await data.json();
-    setWeatherData(result?.list)
-    return () => {}
-  },[])
+  
+
+  const fetchData = async () => {
+    if (!startDate || !endDate) {
+      alert('Please select start and end dates.');
+      return;
+    }
+    try {
+      // Make API request with startDate and endDate
+      const data = await fetch(`${WEATHER_API_BASE_URLS.WEATHER_HISTORY_BASE_URL}?q=${"delhi"}&from_date=${startDate}&to_date=${endDate}`)
+      var result = await data.json();
+      setWeatherData(result?.list)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error
+    }
+  }
+
 
   const handleDownload=(rowData)=>{
     let downloadData = []
@@ -89,6 +103,27 @@ const DailyTrend = () => {
       <Navbar />
       <div className="row">
             <div className="col-md-10 col-12 mx-auto">
+            <div className="datepicker-container">
+      <div className="datepicker-input">
+        <label htmlFor="start-date">Start Date:</label>
+        <input
+          type="date"
+          id="start-date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+      </div>
+      <div className="datepicker-input">
+        <label htmlFor="end-date">End Date:</label>
+        <input
+          type="date"
+          id="end-date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+      </div>
+      <button className="weather-data-button" onClick={fetchData}>Fetch  Weather Historical Data</button>
+    </div>
       <Paper sx={{ width: "100%" }}>
               <TableContainer>
                 <Table style={{ border: "1px solid #BCBCBC" }}>
@@ -162,7 +197,7 @@ const DailyTrend = () => {
                               fontSize:"20px"
                             }}
                           >
-                            {obj?.dt_txt}
+                            {obj?.date}
                           </TableCell>
                           <TableCell
                             style={{

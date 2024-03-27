@@ -2,6 +2,7 @@
 export const WEATHER_API_BASE_URLS={
     "CURRENT_WEATHER_API_BASE_URL":"https://api.openweathermap.org/data/2.5/weather",
     "DAILY_TRENDS_API_BASE_URL":"http://api.openweathermap.org/data/2.5/forecast",
+    "WEATHER_HISTORY_BASE_URL":"http://127.0.0.1:8000/api/1/weather-history"
 
 }
 
