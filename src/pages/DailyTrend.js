@@ -10,6 +10,8 @@ import {
     TableBody,
     TablePagination,
 } from "@mui/material";
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import { WEATHER_API_BASE_URLS,WEATHER_API_KEY } from '../constants/api_endpoints';
 
 
@@ -23,6 +25,7 @@ const DailyTrend = () => {
   const [rowPerPage, rowPerPageChange] = useState(10);
 
   const [weatherData,setWeatherData] = useState(null);
+  let options = {}
 
   const handlePageChange = (e, newPage) => {
     pageChange(newPage);
@@ -46,7 +49,24 @@ const DailyTrend = () => {
       // Make API request with startDate and endDate
       const data = await fetch(`${WEATHER_API_BASE_URLS.WEATHER_HISTORY_BASE_URL}?q=${"delhi"}&from_date=${startDate}&to_date=${endDate}`)
       var result = await data.json();
-      setWeatherData(result?.results)
+      setWeatherData(result?.results.list)
+          options = {
+          title: {
+            text: 'Weather History Chart'
+          },
+          xAxis: {
+            categories: result ? result.results.dates : []
+          },
+          yAxis: {
+            title: {
+              text: 'Value'
+            }
+          },
+          series: [{
+            name: 'Data',
+            data: result ? result.results.list : []
+          }]
+        };
     } catch (error) {
       console.error('Error fetching data:', error);
       // Handle error
@@ -268,6 +288,14 @@ const DailyTrend = () => {
             </Paper>
             </div>
             </div>
+            {weatherData ? (
+        <HighchartsReact highcharts={Highcharts} options={options} allowChartUpdate = { true }       
+        constructorType = { 'mapChart' }
+        updateArgs = { [true, true, true] }
+        containerProps = {{ className: 'chartContainer' }} />
+      ) : (
+        <div></div>
+      )}
     </div>
   )
 }
