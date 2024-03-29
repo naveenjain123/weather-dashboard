@@ -46,7 +46,7 @@ const DailyTrend = () => {
       // Make API request with startDate and endDate
       const data = await fetch(`${WEATHER_API_BASE_URLS.WEATHER_HISTORY_BASE_URL}?q=${"delhi"}&from_date=${startDate}&to_date=${endDate}`)
       var result = await data.json();
-      setWeatherData(result?.list)
+      setWeatherData(result?.results)
     } catch (error) {
       console.error('Error fetching data:', error);
       // Handle error
@@ -168,7 +168,7 @@ const DailyTrend = () => {
                           maxWidth: "100px",
                         }}
                       >
-                        Humidity
+                        Max Humidity
                       </TableCell>
                       <TableCell
                         style={{
@@ -207,7 +207,7 @@ const DailyTrend = () => {
                             }}
                           >
                             <div className="file_name_detail">
-                              <div>{obj?.main?.temp_max} </div>
+                              <div>{obj?.temp_max} </div>
                               <div className="info_detail">
                                 <span className="info_icon">
                                   {/* <BsFillInfoCircleFill
@@ -229,7 +229,7 @@ const DailyTrend = () => {
                               fontSize:"20px"
                             }}
                           >
-                            {obj?.main?.temp_min}
+                            {obj?.temp_min}
                           </TableCell>
                           <TableCell
                             style={{
@@ -239,7 +239,7 @@ const DailyTrend = () => {
                               fontSize:"20px"
                             }}
                           >
-                            {obj?.main?.humidity}
+                            {obj?.humidity}
                           </TableCell>
                           <TableCell
                             style={{
