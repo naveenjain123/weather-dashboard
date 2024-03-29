@@ -23,9 +23,9 @@ const DailyTrend = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [rowPerPage, rowPerPageChange] = useState(10);
+  const [options, setOptions] = useState({});
 
   const [weatherData,setWeatherData] = useState(null);
-  let options = {}
 
   const handlePageChange = (e, newPage) => {
     pageChange(newPage);
@@ -50,7 +50,8 @@ const DailyTrend = () => {
       const data = await fetch(`${WEATHER_API_BASE_URLS.WEATHER_HISTORY_BASE_URL}?q=${"delhi"}&from_date=${startDate}&to_date=${endDate}`)
       var result = await data.json();
       setWeatherData(result?.results.list)
-          options = {
+      setOptions(
+        {
           title: {
             text: 'Weather History Chart'
           },
@@ -66,7 +67,9 @@ const DailyTrend = () => {
             name: 'Data',
             data: result ? result.results.list : []
           }]
-        };
+        }
+      )   
+      console.log("options",options)
     } catch (error) {
       console.error('Error fetching data:', error);
       // Handle error
@@ -288,11 +291,13 @@ const DailyTrend = () => {
             </Paper>
             </div>
             </div>
-            {weatherData ? (
-        <HighchartsReact highcharts={Highcharts} options={options} allowChartUpdate = { true }       
-        constructorType = { 'mapChart' }
-        updateArgs = { [true, true, true] }
-        containerProps = {{ className: 'chartContainer' }} />
+            {options ? (
+              <div className='HighchartsReact'>
+          <HighchartsReact 
+          highcharts={Highcharts} 
+          options={options} />
+              </div>
+       
       ) : (
         <div></div>
       )}
