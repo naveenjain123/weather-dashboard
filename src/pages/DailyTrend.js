@@ -13,6 +13,7 @@ import {
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { WEATHER_API_BASE_URLS,WEATHER_API_KEY } from '../constants/api_endpoints';
+import { Area, Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from 'recharts';
 
 
 const DailyTrend = () => {
@@ -51,23 +52,8 @@ const DailyTrend = () => {
       var result = await data.json();
       setWeatherData(result?.results.list)
       setOptions(
-        {
-          title: {
-            text: 'Weather History Chart'
-          },
-          xAxis: {
-            categories: result ? result.results.dates : []
-          },
-          yAxis: {
-            title: {
-              text: 'Value'
-            }
-          },
-          series: [{
-            name: 'Data',
-            data: result ? result.results.list : []
-          }]
-        }
+      
+             result ? result.results.list : []
       )   
       console.log("options",options)
     } catch (error) {
@@ -291,11 +277,24 @@ const DailyTrend = () => {
             </Paper>
             </div>
             </div>
+            {console.log("..........options",options)}
             {options ? (
               <div className='HighchartsReact'>
-          <HighchartsReact 
-          highcharts={Highcharts} 
-          options={options} />
+                <ComposedChart width={730} height={250} data={options}>
+                  <XAxis dataKey="date" />
+                  <YAxis dataKey="humidity" />
+                  <Tooltip />
+                  <Legend />
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <Area type="monotone" fill="#8884d8" stroke="#8884d8" />
+                  <Bar dataKey="humidity" barSize={20} fill="#413ea0" />
+                  <Line type="monotone" stroke="#ff7300" />
+                </ComposedChart>
+
+          {/* <HighchartsReact 
+            highcharts={Highcharts} 
+            options={options} 
+          /> */}
               </div>
        
       ) : (
